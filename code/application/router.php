@@ -1,7 +1,7 @@
 <?php
 defined('_JEXEC') or die;
 
-class AppRouter extends JApplicationWebRouter
+class TinyApplicationRouter extends JApplicationWebRouter
 {
 	/**
 	 * @var    array  An array of rules, each rule being an associative array('regex'=> $regex, 'vars' => $vars, 'controller' => $controller)
@@ -288,13 +288,37 @@ class AppRouter extends JApplicationWebRouter
 		// Get the controller name based on the route patterns and requested route.
 		$routeDetails = $this->parseRoute($route);
 
-		print_r($routeDetails);
-		die();
-
 		// Get the controller object by name.
-		$controller = $this->fetchController($name);
+		$controller = $this->fetchController($routeDetails['controller']);
 
 		// Execute the controller.
 		$controller->execute();
+	}
+
+	/**
+	 * Get a JController object for a given name.
+	 *
+	 * @param   string  $name  The controller name (excluding prefix) for which to fetch and instance.
+	 *
+	 * @return  JController
+	 *
+	 * @since   12.2
+	 * @throws  RuntimeException
+	 */
+	protected function fetchController($name)
+	{
+		// Derive the controller class name.
+		$class = $this->controllerPrefix . ucfirst($name) . 'Controller';
+
+		// If the controller class does not exist panic.
+		if (!class_exists($class) || !is_subclass_of($class, 'JController'))
+		{
+			throw new RuntimeException(sprintf('Unable to locate controller `%s`.', $class), 404);
+		}
+
+		// Instantiate the controller.
+		$controller = new $class($this->input, $this->app);
+
+		return $controller;
 	}
 }

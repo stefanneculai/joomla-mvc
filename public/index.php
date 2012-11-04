@@ -9,8 +9,9 @@ const _JEXEC = 1;
 const JPATH_ROOT = __DIR__;
 define('JPATH_BASE', dirname(__DIR__));
 define('JPATH_APP', JPATH_BASE . '/app');
-define('JPATH_CONTROLLERS', JPATH_APP . '/controllers');
-define('JPATH_MODELS', JPATH_APP . '/models');
+define('JPATH_CODE', JPATH_BASE . '/code');
+define('JPATH_CONTROLLERS', JPATH_APP . '/controller');
+define('JPATH_MODELS', JPATH_APP . '/model');
 define('JPATH_CONFIG',    JPATH_BASE . '/config');
 define('JPATH_LIBRARIES', dirname(JPATH_BASE) . '/joomla-platform/libraries');
 
@@ -21,19 +22,13 @@ const JDEBUG = true;
 
 // Import the Joomla Platform.
 require_once JPATH_LIBRARIES . '/import.php';
-require_once JPATH_APP . '/loader.php';
 
-// Load app files
-AppLoader::discover('', JPATH_APP);
-
-// Load controller files
-AppLoader::discover('', JPATH_CONTROLLERS);
-
-// Load model files
-AppLoader::discover('', JPATH_MODELS);
+//JLoader::registerPrefix('JMVC', JPATH_APP);
+JLoader::registerPrefix('Tiny', JPATH_CODE, true);
+JLoader::discover('', JPATH_BASE, true, true);
 
 // Get the application
-$app = JApplicationWeb::getInstance('AppWeb');
+$app = JApplicationWeb::getInstance('TinyApplicationWeb');
 
 // Execute the application
 $app->execute();

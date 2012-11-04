@@ -1,7 +1,7 @@
 <?php
 defined('_JEXEC') or die;
 
-class AppWeb extends JApplicationWeb
+class TinyApplicationWeb extends JApplicationWeb
 {
 	protected $router;
 
@@ -24,6 +24,7 @@ class AppWeb extends JApplicationWeb
 
 		$this->config->set('session', false);
 
+
 		// Inject the application into JFactory
 		JFactory::$application = $this;
 
@@ -41,9 +42,9 @@ class AppWeb extends JApplicationWeb
 	 *
 	 * @since   1.0
 	 */
-	public function loadRouter(DirectoryApplicationWebRouter $router = null)
+	public function loadRouter(TinyApplicationRouter $router = null)
 	{
-		$this->router = (is_null($router)) ? new AppRouter($this, $this->input) : $router;
+		$this->router = (is_null($router)) ? new TinyApplicationRouter($this, $this->input) : $router;
 
 		$this->router->mapResource('books', array(
 					'members' => array('preview' => 'GET'),
