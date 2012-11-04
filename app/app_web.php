@@ -3,6 +3,8 @@ defined('_JEXEC') or die;
 
 class AppWeb extends JApplicationWeb
 {
+	protected $router;
+
 	/**
 	 * Class constructor.
 	 *
@@ -25,7 +27,34 @@ class AppWeb extends JApplicationWeb
 		// Inject the application into JFactory
 		JFactory::$application = $this;
 
+		$this->loadRouter();
+
 		// $this->setUpDB();
+	}
+
+	/**
+	 * Allows the application to load a custom or default router.
+	 *
+	 * @param   WebServiceApplicationWebRouter  $router  An optional router object. If omitted, the standard router is created.
+	 *
+	 * @return  JApplicationWeb This method is chainable.
+	 *
+	 * @since   1.0
+	 */
+	public function loadRouter(DirectoryApplicationWebRouter $router = null)
+	{
+		$this->router = (is_null($router)) ? new AppRouter($this, $this->input) : $router;
+
+		//$this->router->addMap('profile', 'books', 'show');
+
+		$this->router->addResource('books', array('controller' => 'magazines'));
+		$this->router->addResource('books', array('namespace' => 'admin'));
+		$this->router->addResource('photos', array('in_resource' => 'books'));
+		$this->router->addResource('photos', array('in_resource' => 'books', 'namespace' => 'admin'));
+
+		//$this->router->addResourceMember('books', '', '', 'preview');
+
+		return $this;
 	}
 
 
@@ -36,6 +65,7 @@ class AppWeb extends JApplicationWeb
 	 */
 	protected function doExecute()
 	{
-		$this->setBody('Hello World!');
+		$this->router->execute($this->get('uri.route'));
+		//$this->setBody('Hello World!');
 	}
 }
