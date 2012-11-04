@@ -45,14 +45,12 @@ class AppWeb extends JApplicationWeb
 	{
 		$this->router = (is_null($router)) ? new AppRouter($this, $this->input) : $router;
 
-		//$this->router->addMap('profile', 'books', 'show');
+		$this->router->mapResource('books', array(
+					'members' => array('preview' => 'GET'),
+					'collections' => array('search' => 'GET'),
+					'resources'=> array('photos' => array('namespace' => 'admin', 'members' => array('test' => 'post')))));
 
-		$this->router->addResource('books', array('controller' => 'magazines'));
-		$this->router->addResource('books', array('namespace' => 'admin'));
-		$this->router->addResource('photos', array('in_resource' => 'books'));
-		$this->router->addResource('photos', array('in_resource' => 'books', 'namespace' => 'admin'));
-
-		//$this->router->addResourceMember('books', '', '', 'preview');
+		$this->router->mapResource('test');
 
 		return $this;
 	}

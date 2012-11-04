@@ -1,0 +1,16 @@
+##
+# @copyright  Copyright (C) {COPYRIGHT}. All rights reserved.
+##
+
+###########################################
+# ======= Enable the Rewrite Engine =======
+
+RewriteEngine On
+
+###########################################
+# ======== Joomla! API URL Routing ========
+RewriteCond %{REQUEST_URI} !-f
+RewriteCond %{REQUEST_URI} !-d
+RewriteRule (.*) index.php
+
+###########################################

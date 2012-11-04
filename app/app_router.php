@@ -8,7 +8,7 @@ class AppRouter extends JApplicationWebRouter
 	 *                for routing the request.
 	 * @since  12.2
 	 */
-	protected $maps = array();
+	public $maps = array();
 
 	/**
 	 * @var    array  An array of HTTP Method => action in controller.
@@ -95,51 +95,9 @@ class AppRouter extends JApplicationWebRouter
 		return $this;
 	}
 
-	/**
-	 *
-	 * @param unknown_type $resource
-	 * @param unknown_type $options  controller, in_resource, namespace, // TODO add members, add collection
-	 */
-	public function addResource($resource, $options = array())
+	private function addRESTfulResource($resource, $resource_path, $controller, $namespace_prefix)
 	{
-		// Get a string inflector.
 		$stringInflector = JStringInflector::getInstance();
-
-		// Check if this is a nested resource.
-		if (array_key_exists("in_resource", $options))
-		{
-			$in_resource_path = '/' . $options['in_resource'] . '/:' . $stringInflector->toSingular($options['in_resource']) . '_id';
-		}
-		else
-		{
-			$in_resource_path = '';
-		}
-
-		// Check if there is a namespace.
-		if (array_key_exists("namespace", $options))
-		{
-			$namespace_prefix = $options['namespace'] . '_';
-			$namespace = $options['namespace'];
-		}
-		else
-		{
-			$namespace_prefix = '';
-			$namespace = '';
-		}
-
-		if (array_key_exists('controller', $options))
-		{
-			$controller = $options['controller'];
-		}
-		else
-		{
-			$controller = $resource;
-		}
-
-		// Build resource path
-		$resource_path =  $namespace  . $in_resource_path . '/' . $resource;
-
-
 		// Check if the resource is plural
 		if ($stringInflector->isPlural($resource)) {
 			$this->addMap($resource_path, $controller, $namespace_prefix . 'index', 'GET');
@@ -151,7 +109,89 @@ class AppRouter extends JApplicationWebRouter
 		$this->addMap($resource_path . '/:id/edit', $controller, $namespace_prefix . 'edit', 'GET');
 		$this->addMap($resource_path . '/:id', $controller, $namespace_prefix . 'update', 'PUT');
 		$this->addMap($resource_path . '/:id', $controller, $namespace_prefix . 'delete', 'DELETE');
+	}
 
+	public function mapResource($resource, $options = array())
+	{
+		$this->addResource($resource, $options);
+	}
+
+	/**
+	 *
+	 * @param unknown_type $resource
+	 * @param unknown_type $options  controller, resources, namespace, // TODO add members, add collection
+	 */
+	private function addResource($resource, $options = array(), $path = '/', $namespace_prefix = '')
+	{
+		// Get a string inflector.
+		$stringInflector = JStringInflector::getInstance();
+
+		// Check if there is a namespace.
+		if (array_key_exists("namespace", $options))
+		{
+			if(empty($namespace_prefix))
+			{
+				$namespace_prefix = $options['namespace'] . '_';
+			}
+			else
+			{
+				$namespace_prefix = $namespace_prefix . $options['namespace'] . '_';
+			}
+			$namespace_path = '/' . $options['namespace'];
+			$namespace = $options['namespace'];
+		}
+		else
+		{
+			$namespace_path = '';
+			$namespace = '';
+		}
+
+		// Check if there is a controller specified.
+		if (array_key_exists('controller', $options))
+		{
+			$controller = $options['controller'];
+		}
+		else
+		{
+			$controller = $resource;
+		}
+
+		// Build resource path.
+		$resource_path =  $path . $namespace_path  . '/' . $resource;
+
+		// Check if there are members for the current resource.
+		if(array_key_exists('members', $options))
+		{
+			$members = $options['members'];
+			foreach ($members as $member => $method)
+			{
+				$this->addMap($resource_path . '/:id/' . $member , $controller, $namespace_prefix . $member, strtoupper($method));
+			}
+		}
+
+		// Check if there are members for the current resource.
+		if(array_key_exists('collections', $options))
+		{
+			$collections = $options['collections'];
+			foreach ($collections as $collection => $method)
+			{
+				$this->addMap($resource_path . '/' . $collection , $controller, $namespace_prefix . $collection, strtoupper($method));
+			}
+		}
+
+		// Add RESTful routes for the resource.
+		$this->addRESTfulResource($resource, $resource_path, $controller, $namespace_prefix);
+
+		// Check if there are nested resources. We limit them to only one nesting level.
+		if (array_key_exists("resources", $options))
+		{
+			foreach ($options['resources'] as $c_resource => $c_options)
+			{
+				$c_resource_path = $resource_path . '/:' . $stringInflector->toSingular($resource) . '_id';
+
+				$this->addResource($c_resource, $c_options, $c_resource_path, $namespace_prefix);
+			}
+		}
 	}
 
 	/**
