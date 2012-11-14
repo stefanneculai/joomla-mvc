@@ -314,6 +314,9 @@ class TinyApplicationRouter extends JApplicationWebRouter
 	 */
 	protected function fetchController($name)
 	{
+		// Get a string inflector.
+		$stringInflector = JStringInflector::getInstance();
+
 		// Derive the controller class name.
 		$class = $this->controllerPrefix . ucfirst($name) . 'Controller';
 
@@ -324,7 +327,7 @@ class TinyApplicationRouter extends JApplicationWebRouter
 		}
 
 		// Instantiate the controller.
-		$controller = new $class($this->input, $this->app);
+		$controller = new $class($stringInflector->toSingular($name), $this->input, $this->app);
 
 		return $controller;
 	}
