@@ -11,7 +11,7 @@ $doc->addStyleSheet('../bootstrap.css');
 		<jdoc:include type="head" />
 	</head>
 	<body>
-		<h1>Tiny MVC MT theme</h1>
+		<h1>Tada MVC MT theme</h1>
 		<jdoc:include type="content" />
 	</body>
 </html>

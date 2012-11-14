@@ -73,7 +73,7 @@ abstract class TadaController extends JControllerBase
 		$paths = new SplPriorityQueue;
 
 		// Themed path.
-		if(isset($this->theme))
+		if(!empty($this->theme))
 		{
 			$paths->insert(JPATH_APP . '/view/themes/' . $this->theme .'/' . $this->input->get('_controller'), 'normal');
 			$this->app->set('themes.base', JPATH_APP . '/view/themes/' . $this->theme . '/layouts');
