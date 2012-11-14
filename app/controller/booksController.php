@@ -8,4 +8,9 @@ class BooksController extends TinyController
 	{
 		$this->theme = 'mt';
 	}
+
+	public function admin_index($params = array())
+	{
+
+	}
 }
