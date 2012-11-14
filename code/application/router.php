@@ -288,8 +288,15 @@ class TinyApplicationRouter extends JApplicationWebRouter
 		// Get the controller name based on the route patterns and requested route.
 		$routeDetails = $this->parseRoute($route);
 
+		// Set view name in input
+		$this->input->def('_controller', $routeDetails['controller']);
+		$this->input->def('_action', $routeDetails['action']);
+
 		// Get the controller object by name.
 		$controller = $this->fetchController($routeDetails['controller']);
+
+		// Call action controller.
+		$controller->{$routeDetails['action']}($routeDetails['params']);
 
 		// Execute the controller.
 		$controller->execute();

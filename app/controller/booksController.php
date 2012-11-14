@@ -4,8 +4,8 @@ defined('_JEXEC') or die;
 
 class BooksController extends TinyController
 {
-	public function execute()
+	public function index($params = array())
 	{
-		die('hey books!');
+		$this->theme = 'mt';
 	}
 }

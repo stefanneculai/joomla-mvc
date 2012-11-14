@@ -28,8 +28,10 @@ class TinyApplicationWeb extends JApplicationWeb
 		// Inject the application into JFactory
 		JFactory::$application = $this;
 
+		// Load router
 		$this->loadRouter();
 
+		// Load database
 		// $this->setUpDB();
 	}
 
@@ -64,6 +66,27 @@ class TinyApplicationWeb extends JApplicationWeb
 	 */
 	protected function doExecute()
 	{
+		$this->loadDocument();
+		$document = $this->getDocument();
+
+		// Register the template to the config
+		$this->set('theme', 'default');
+		$this->set('themes.base', JPATH_APP . '/view');
+		$this->set('themeParams', new JRegistry);
+
+		// Inject the document object into the factory
+		JFactory::$document = $document;
+
+		switch ($document->getType())
+		{
+			case 'html' :
+				// Set metadata
+				$document->setTitle('Joomla MVC');
+				break;
+			default :
+				break;
+		}
+
 		$this->router->execute($this->get('uri.route'));
 		//$this->setBody('Hello World!');
 	}

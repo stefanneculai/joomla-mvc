@@ -1,7 +1,7 @@
 <?php
 defined('_JEXEC') or die;
 
-class TinyModel extends JModel
+class TinyModel extends JModelBase
 {
 
 }
