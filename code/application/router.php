@@ -1,7 +1,7 @@
 <?php
 defined('_JEXEC') or die;
 
-class TinyApplicationRouter extends JApplicationWebRouter
+class TadaApplicationRouter extends JApplicationWebRouter
 {
 	/**
 	 * @var    array  An array of rules, each rule being an associative array('regex'=> $regex, 'vars' => $vars, 'controller' => $controller)

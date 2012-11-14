@@ -1,7 +1,7 @@
 <?php
 defined('_JEXEC') or die;
 
-abstract class TinyController extends JControllerBase
+abstract class TadaController extends JControllerBase
 {
 	// The name of this controller.
 	protected $name;
@@ -40,7 +40,7 @@ abstract class TinyController extends JControllerBase
 		$modelClass = ucfirst($stringInflector->toSingular($this->name));
 
 		// Check if model class exists.
-		if (!class_exists($modelClass) || !is_subclass_of($modelClass, 'TinyModel'))
+		if (!class_exists($modelClass) || !is_subclass_of($modelClass, 'TadaModel'))
 		{
 			throw new RuntimeException(sprintf('Unable to locate model `%s`.', $class), 404);
 		}
@@ -69,7 +69,7 @@ abstract class TinyController extends JControllerBase
 		$paths->insert(JPATH_APP . '/view/default/' . $this->input->get('_controller'), 'normal');
 
 		// Set view layout.
-		$view = new TinyViewHtml(new TinyModel, $paths);
+		$view = new TadaViewHtml(new TadaModel, $paths);
 		$view->setLayout($this->input->get('_action'));
 
 		// Set vars in view

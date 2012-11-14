@@ -2,7 +2,7 @@
 
 defined('_JEXEC') or die;
 
-class BooksController extends TinyController
+class BooksController extends TadaController
 {
 	public function index()
 	{

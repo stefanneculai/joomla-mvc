@@ -1,7 +1,7 @@
 <?php
 defined('_JEXEC') or die;
 
-class TinyApplicationWeb extends JApplicationWeb
+class TadaApplicationWeb extends JApplicationWeb
 {
 	protected $router;
 
@@ -44,9 +44,9 @@ class TinyApplicationWeb extends JApplicationWeb
 	 *
 	 * @since   1.0
 	 */
-	public function loadRouter(TinyApplicationRouter $router = null)
+	public function loadRouter(TadaApplicationRouter $router = null)
 	{
-		$this->router = (is_null($router)) ? new TinyApplicationRouter($this, $this->input) : $router;
+		$this->router = (is_null($router)) ? new TadaApplicationRouter($this, $this->input) : $router;
 
 		$this->router->mapResource('books', array(
 					'members' => array('preview' => 'GET'),

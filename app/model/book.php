@@ -2,7 +2,7 @@
 
 defined('_JEXEC') or die;
 
-class Book extends TinyModel
+class Book extends TadaModel
 {
 
 }

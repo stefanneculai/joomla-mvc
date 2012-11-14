@@ -24,11 +24,11 @@ const JDEBUG = true;
 require_once JPATH_LIBRARIES . '/import.php';
 
 //JLoader::registerPrefix('JMVC', JPATH_APP);
-JLoader::registerPrefix('Tiny', JPATH_CODE, true);
+JLoader::registerPrefix('Tada', JPATH_CODE, true);
 JLoader::discover('', JPATH_BASE, true, true);
 
 // Get the application
-$app = JApplicationWeb::getInstance('TinyApplicationWeb');
+$app = JApplicationWeb::getInstance('TadaApplicationWeb');
 
 // Execute the application
 $app->execute();

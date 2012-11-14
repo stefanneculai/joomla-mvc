@@ -2,9 +2,9 @@
 
 defined('_JEXEC') or die;
 
-class TinyViewHtml extends JViewHtml
+class TadaViewHtml extends JViewHtml
 {
-	public function __construct(TinyModel $model, SplPriorityQueue $paths = null)
+	public function __construct(TadaModel $model, SplPriorityQueue $paths = null)
 	{
 		parent::__construct($model, $paths);
 	}
