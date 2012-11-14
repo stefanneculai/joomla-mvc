@@ -69,28 +69,22 @@ class TadaApplicationWeb extends JApplicationWeb
 	 */
 	protected function doExecute()
 	{
+		// Load document and save it in factory.
 		$this->loadDocument();
 		$document = $this->getDocument();
+
+		// Inject the document object into the factory
+		JFactory::$document = $document;
+
+		// Set page title.
+		$document->setTitle('Tada MVC');
 
 		// Register the template to the config
 		$this->set('theme', 'default');
 		$this->set('themes.base', JPATH_APP . '/view');
 		$this->set('themeParams', new JRegistry);
 
-		// Inject the document object into the factory
-		JFactory::$document = $document;
-
-		switch ($document->getType())
-		{
-			case 'html' :
-				// Set metadata
-				$document->setTitle('Joomla MVC');
-				break;
-			default :
-				break;
-		}
-
+		// Execute router
 		$this->router->execute($this->get('uri.route'));
-		//$this->setBody('Hello World!');
 	}
 }
