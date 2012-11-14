@@ -9,7 +9,7 @@ const _JEXEC = 1;
 const JPATH_ROOT = __DIR__;
 define('JPATH_BASE', dirname(__DIR__));
 define('JPATH_APP', JPATH_BASE . '/app');
-define('JPATH_CODE', JPATH_BASE . '/code');
+define('JPATH_CODE', JPATH_BASE . '/lib/tada');
 define('JPATH_CONTROLLERS', JPATH_APP . '/controller');
 define('JPATH_MODELS', JPATH_APP . '/model');
 define('JPATH_CONFIG',    JPATH_BASE . '/config');
