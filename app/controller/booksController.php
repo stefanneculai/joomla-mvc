@@ -4,12 +4,13 @@ defined('_JEXEC') or die;
 
 class BooksController extends TinyController
 {
-	public function index($params = array())
+	public function index()
 	{
-		$this->theme = 'mt';
+		// $this->theme = 'mt';
+		$this->ceva = 'test';
 	}
 
-	public function admin_index($params = array())
+	public function admin_index()
 	{
 
 	}

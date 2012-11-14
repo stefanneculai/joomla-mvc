@@ -295,9 +295,6 @@ class TinyApplicationRouter extends JApplicationWebRouter
 		// Get the controller object by name.
 		$controller = $this->fetchController($routeDetails['controller']);
 
-		// Call action controller.
-		$controller->{$routeDetails['action']}($routeDetails['params']);
-
 		// Execute the controller.
 		$controller->execute();
 	}
@@ -314,9 +311,6 @@ class TinyApplicationRouter extends JApplicationWebRouter
 	 */
 	protected function fetchController($name)
 	{
-		// Get a string inflector.
-		$stringInflector = JStringInflector::getInstance();
-
 		// Derive the controller class name.
 		$class = $this->controllerPrefix . ucfirst($name) . 'Controller';
 
@@ -327,7 +321,7 @@ class TinyApplicationRouter extends JApplicationWebRouter
 		}
 
 		// Instantiate the controller.
-		$controller = new $class($stringInflector->toSingular($name), $this->input, $this->app);
+		$controller = new $class($this->input, $this->app);
 
 		return $controller;
 	}
