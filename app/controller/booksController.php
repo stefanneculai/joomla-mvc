@@ -10,6 +10,16 @@ class BooksController extends TadaController
 		$this->ceva = 'test';
 	}
 
+	public function create()
+	{
+		// $this->theme = 'mt';
+	}
+
+	public function update()
+	{
+		// $this->theme = 'mt';
+	}
+
 	public function admin_index()
 	{
 

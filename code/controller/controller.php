@@ -9,10 +9,16 @@ abstract class TadaController extends JControllerBase
 	// The name of the currently requested controller action.
 	protected $action;
 
-	// The vars that will be passed to the view
+	// The vars that will be passed to the view.
 	protected $viewVars = array();
 
-	public function __construct(JInput $input = null, JApplicationBase $app = null, $params = array())
+	// The params of the action.
+	protected $params = array();
+
+	// The data of the action
+	protected $data = array();
+
+	public function __construct(JInput $input = null, JApplicationBase $app = null, $params = array(), $data = array())
 	{
 		// Setup dependencies.
 		$this->app = isset($app) ? $app : $this->loadApplication();
@@ -25,7 +31,10 @@ abstract class TadaController extends JControllerBase
 		$this->action = $this->input->get('_action');
 
 		// Set the params passed to the controller.
-		$this->params = $params;
+		$this->params = array_merge($params, $this->input->get->getArray());
+
+		// Get POST data.
+		$this->data = $this->input->post->getArray();
 
 		// Load model.
 		$this->loadModel();

@@ -241,10 +241,23 @@ class TadaApplicationRouter extends JApplicationWebRouter
 			return $this->default;
 		}
 
+		// Get the REST method.
+		$method = strtoupper($this->input->server->getMethod());
+		if (strcmp($method, 'POST') == 0)
+		{
+
+			$postMethod = $this->input->get->getWord('_method');
+
+			if(isset($postMethod))
+			{
+				$method = strtoupper($postMethod);
+			}
+		}
+
 		// Iterate through all of the known route maps looking for a match.
 		foreach ($this->maps as $rule)
 		{
-			if (preg_match($rule['regex'], $route, $matches) && strcmp(strtoupper($rule['method']), strtoupper($this->input->server->getMethod())) == 0)
+			if (preg_match($rule['regex'], $route, $matches) && strcmp(strtoupper($rule['method']), $method) == 0)
 			{
 				// If we have gotten this far then we have a positive match.
 				$controller = $rule['controller'];
