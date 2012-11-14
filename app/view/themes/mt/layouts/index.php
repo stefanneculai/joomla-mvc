@@ -2,7 +2,7 @@
 defined('_JEXEC') or die;
 
 $doc = JFactory::getDocument();
-$doc->addStyleSheet('../bootstrap.css');
+$doc->addStyleSheet('css/style.css');
 ?>
 
 <!DOCTYPE html>

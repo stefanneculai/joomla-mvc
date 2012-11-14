@@ -11,6 +11,10 @@ RewriteEngine On
 # ======== Joomla! API URL Routing ========
 RewriteCond %{REQUEST_URI} !-f
 RewriteCond %{REQUEST_URI} !-d
+RewriteCond %{REQUEST_URI} !^/img
+RewriteCond %{REQUEST_URI} !^/css
+RewriteCond %{REQUEST_URI} !^/js
+RewriteCond %{REQUEST_URI} !^/themes
 RewriteRule (.*) index.php
 
 ###########################################

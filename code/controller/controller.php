@@ -39,6 +39,9 @@ abstract class TadaController extends JControllerBase
 		// Get POST data.
 		$this->data = $this->input->post->getArray();
 
+		// Set theme.
+		$this->theme = $this->app->get('theme');
+
 		// Load model.
 		$this->loadModel();
 	}
@@ -77,6 +80,7 @@ abstract class TadaController extends JControllerBase
 		{
 			$paths->insert(JPATH_APP . '/view/themes/' . $this->theme .'/' . $this->input->get('_controller'), 'normal');
 			$this->app->set('themes.base', JPATH_APP . '/view/themes/' . $this->theme . '/layouts');
+			$this->app->set('theme', '');
 		}
 		// Default path.
 		$paths->insert(JPATH_APP . '/view/' . $this->input->get('_controller'), 'normal');
