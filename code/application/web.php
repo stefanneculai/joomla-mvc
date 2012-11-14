@@ -80,8 +80,9 @@ class TadaApplicationWeb extends JApplicationWeb
 		$document->setTitle('Tada MVC');
 
 		// Register the template to the config
-		$this->set('theme', 'default');
-		$this->set('themes.base', JPATH_APP . '/view');
+		$this->set('theme', '');
+		$this->set('themes.base', JPATH_APP . '/view/layouts');
+		$this->set('themeFile',  'index.php');
 		$this->set('themeParams', new JRegistry);
 
 		// Execute router

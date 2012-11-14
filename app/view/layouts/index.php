@@ -12,7 +12,6 @@ $doc->addStyleSheet('../bootstrap.css');
 	</head>
 	<body>
 		<h1>Tiny MVC</h1>
-		<jdoc:include type="header" />
 		<jdoc:include type="content" />
 	</body>
 </html>

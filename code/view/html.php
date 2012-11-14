@@ -20,4 +20,9 @@ class TadaViewHtml extends JViewHtml
 	{
 		return parent::render();
 	}
+
+	public function element($name, $data = array())
+	{
+
+	}
 }

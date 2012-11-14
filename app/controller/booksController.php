@@ -6,7 +6,7 @@ class BooksController extends TadaController
 {
 	public function index()
 	{
-		// $this->theme = 'mt';
+		$this->theme = 'mt';
 		$this->ceva = 'test';
 	}
 

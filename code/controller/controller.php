@@ -18,6 +18,9 @@ abstract class TadaController extends JControllerBase
 	// The data of the action
 	protected $data = array();
 
+	// The used theme.
+	protected $theme = '';
+
 	public function __construct(JInput $input = null, JApplicationBase $app = null, $params = array(), $data = array())
 	{
 		// Setup dependencies.
@@ -68,14 +71,20 @@ abstract class TadaController extends JControllerBase
 
 		// Set paths.
 		$paths = new SplPriorityQueue;
+
 		// Themed path.
 		if(isset($this->theme))
 		{
-			$paths->insert(JPATH_APP . '/view/' . $this->theme .'/' . $this->input->get('_controller'), 'normal');
-			$this->app->set('theme', $this->theme);
+			$paths->insert(JPATH_APP . '/view/themes/' . $this->theme .'/' . $this->input->get('_controller'), 'normal');
+			$this->app->set('themes.base', JPATH_APP . '/view/themes/' . $this->theme . '/layouts');
 		}
 		// Default path.
-		$paths->insert(JPATH_APP . '/view/default/' . $this->input->get('_controller'), 'normal');
+		$paths->insert(JPATH_APP . '/view/' . $this->input->get('_controller'), 'normal');
+
+		if(isset($this->layout))
+		{
+			$this->app->set('themeFile', $this->layout . '.php');
+		}
 
 		// Set view layout.
 		$view = new TadaViewHtml(new TadaModel, $paths);
