@@ -9,6 +9,11 @@ abstract class TinyController extends JControllerBase
 		$this->app = isset($app) ? $app : $this->loadApplication();
 		$this->input = isset($input) ? $input : $this->loadInput();
 
+		$this->loadModel($model);
+	}
+
+	private function loadModel($model)
+	{
 		$modelClass = ucfirst($model);
 		if (!class_exists($modelClass) || !is_subclass_of($modelClass, 'TinyModel'))
 		{
