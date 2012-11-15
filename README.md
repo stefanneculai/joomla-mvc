@@ -1,7 +1,7 @@
-joomla-mvc
+TADA MVC
 ==========
 
-Tada MVC Application using Joomla! Framework
+A MVC Application using Joomla! Framework. The stucture of the application is similar to what RubyOnRails and PHPCake use.
 
 ### Application structure
     app/                     -- the application directory
