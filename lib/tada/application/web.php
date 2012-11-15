@@ -22,8 +22,10 @@ class TadaApplicationWeb extends JApplicationWeb
 	{
 		parent::__construct($input, $config, $client);
 
-		$this->config->set('session', false);
+		// Load the configuration object.
+		$this->loadConfiguration($this->fetchConfigurationData(JPATH_CONFIGURATION . '/configuration.php'));
 
+		$this->config->set('session', false);
 
 		// Inject the application into JFactory
 		JFactory::$application = $this;
@@ -31,8 +33,7 @@ class TadaApplicationWeb extends JApplicationWeb
 		// Load router
 		$this->loadRouter();
 
-		// Load database
-		// $this->setUpDB();
+		$this->loadDatabase();
 	}
 
 	/**
@@ -117,5 +118,48 @@ class TadaApplicationWeb extends JApplicationWeb
 
 			$this->document = $instance;
 		}
+	}
+
+	/**
+	 * Allows the application to load a custom or default database driver.
+	 *
+	 * @param   JDatabaseDriver  $driver  An optional database driver object. If omitted, the application driver is created.
+	 *
+	 * @return  JApplicationBase This method is chainable.
+	 *
+	 * @since   1.0
+	 */
+	public function loadDatabase(JDatabaseDriver $driver = null)
+	{
+		die($this->get('db_driver'));
+
+		// Check if no driver was passed.
+		if (is_null($driver))
+		{
+			$this->db = JDatabaseDriver::getInstance(
+				array(
+					'driver' => $this->get('db_driver'),
+					'host' => $this->get('db_host'),
+					'user' => $this->get('db_user'),
+					'password' => $this->get('db_pass'),
+					'database' => $this->get('db_name'),
+					'prefix' => $this->get('db_prefix')
+				)
+			);
+
+			// Select the database.
+			$this->db->select($this->get('db_name'));
+		}
+
+		// Use the given database driver object.
+		else
+		{
+			$this->db = $driver;
+		}
+
+		// Set the database to our static cache.
+		JFactory::$database = $this->db;
+
+		return $this;
 	}
 }
