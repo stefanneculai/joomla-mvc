@@ -1,9 +1,9 @@
 <?php
 
-// Connect any route you want
+// Connect any route you want.
 TadaApplicationRouter::addMap('/books/search', 'books', 'index');
 
-// Map a resource. This is mostly like on RoR
+// Map a resource. This is mostly like on RoR.
 TadaApplicationRouter::mapResource('books', array(
 												'members' => array('preview' => 'GET'),
 												'collections' => array('search' => 'GET'),
