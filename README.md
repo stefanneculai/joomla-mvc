@@ -3,7 +3,7 @@ joomla-mvc
 
 Tada MVC Application using Joomla! Framework
 
-===Folder structure===
+### Simple
     doc/              -- documentation directory
       mkd/            -- markdown directory
         index.mkd     -- index
