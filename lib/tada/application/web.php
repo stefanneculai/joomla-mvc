@@ -51,14 +51,7 @@ class TadaApplicationWeb extends JApplicationWeb
 		// Load a new router.
 		$this->router = (is_null($router)) ? new TadaApplicationRouter($this, $this->input) : $router;
 
-		//TODO Add routes to the router. Read them from file
-		$this->router->mapResource('books', array(
-					'members' => array('preview' => 'GET'),
-					'collections' => array('search' => 'GET'),
-					'resources'=> array('photos' => array('namespace' => 'admin', 'members' => array('test' => 'post')))));
-
-		// Add a restful singular resource to router.
-		$this->router->mapResource('test');
+		require JPATH_CONFIG . '/routes.php';
 
 		return $this;
 	}

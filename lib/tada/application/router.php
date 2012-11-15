@@ -8,13 +8,13 @@ class TadaApplicationRouter extends JApplicationWebRouter
 	 *                for routing the request.
 	 * @since  12.2
 	 */
-	public $maps = array();
+	private static $maps = array();
 
 	/**
 	 * @var    array  An array of HTTP Method => action in controller.
 	 * @since  12.2
 	 */
-	protected $methodMap = array(
+	protected static $methodMap = array(
 		'GET' => 'index',
 		'POST' => 'create',
 		'PUT' => 'update',
@@ -27,11 +27,9 @@ class TadaApplicationRouter extends JApplicationWebRouter
 	 * @param   string  $pattern     The route pattern to use for matching.
 	 * @param   string  $controller  The controller name to map to the given pattern.
 	 *
-	 * @return  JApplicationWebRouter  This object for method chaining.
-	 *
 	 * @since   12.2
 	 */
-	public function addMap($pattern, $controller, $action, $method = 'GET')
+	public static function addMap($pattern, $controller, $action, $method = 'GET')
 	{
 		// Sanitize and explode the pattern.
 		$pattern = explode('/', trim(parse_url((string) $pattern, PHP_URL_PATH), ' /'));
@@ -84,36 +82,34 @@ class TadaApplicationRouter extends JApplicationWebRouter
 			}
 		}
 
-		$this->maps[] = array(
+		array_push(TadaApplicationRouter::$maps, array(
 			'regex' => chr(1) . '^' . implode('/', $regex) . '$' . chr(1),
 			'vars' => $vars,
 			'controller' => (string) $controller,
 			'action' => (string) $action,
 			'method' => (string) $method
-		);
-
-		return $this;
+		));
 	}
 
-	private function addRESTfulResource($resource, $resource_path, $controller, $namespace_prefix)
+	private static function addRESTfulResource($resource, $resource_path, $controller, $namespace_prefix)
 	{
 		$stringInflector = JStringInflector::getInstance();
 		// Check if the resource is plural
 		if ($stringInflector->isPlural($resource)) {
-			$this->addMap($resource_path, $controller, $namespace_prefix . 'index', 'GET');
+			TadaApplicationRouter::addMap($resource_path, $controller, $namespace_prefix . 'index', 'GET');
 		}
 
-		$this->addMap($resource_path . '/new', $controller, $namespace_prefix . 'new', 'GET');
-		$this->addMap($resource_path, $controller, $namespace_prefix . 'create', 'POST');
-		$this->addMap($resource_path . '/:id', $controller, $namespace_prefix . 'show', 'GET');
-		$this->addMap($resource_path . '/:id/edit', $controller, $namespace_prefix . 'edit', 'GET');
-		$this->addMap($resource_path . '/:id', $controller, $namespace_prefix . 'update', 'PUT');
-		$this->addMap($resource_path . '/:id', $controller, $namespace_prefix . 'delete', 'DELETE');
+		TadaApplicationRouter::addMap($resource_path . '/new', $controller, $namespace_prefix . 'new', 'GET');
+		TadaApplicationRouter::addMap($resource_path, $controller, $namespace_prefix . 'create', 'POST');
+		TadaApplicationRouter::addMap($resource_path . '/:id', $controller, $namespace_prefix . 'show', 'GET');
+		TadaApplicationRouter::addMap($resource_path . '/:id/edit', $controller, $namespace_prefix . 'edit', 'GET');
+		TadaApplicationRouter::addMap($resource_path . '/:id', $controller, $namespace_prefix . 'update', 'PUT');
+		TadaApplicationRouter::addMap($resource_path . '/:id', $controller, $namespace_prefix . 'delete', 'DELETE');
 	}
 
-	public function mapResource($resource, $options = array())
+	public static function mapResource($resource, $options = array())
 	{
-		$this->addResource($resource, $options);
+		TadaApplicationRouter::addResource($resource, $options);
 	}
 
 	/**
@@ -121,7 +117,7 @@ class TadaApplicationRouter extends JApplicationWebRouter
 	 * @param unknown_type $resource
 	 * @param unknown_type $options  controller, resources, namespace, // TODO add members, add collection
 	 */
-	private function addResource($resource, $options = array(), $path = '/', $namespace_prefix = '')
+	private static function addResource($resource, $options = array(), $path = '/', $namespace_prefix = '')
 	{
 		// Get a string inflector.
 		$stringInflector = JStringInflector::getInstance();
@@ -165,7 +161,7 @@ class TadaApplicationRouter extends JApplicationWebRouter
 			$members = $options['members'];
 			foreach ($members as $member => $method)
 			{
-				$this->addMap($resource_path . '/:id/' . $member , $controller, $namespace_prefix . $member, strtoupper($method));
+				TadaApplicationRouter::addMap($resource_path . '/:id/' . $member , $controller, $namespace_prefix . $member, strtoupper($method));
 			}
 		}
 
@@ -175,12 +171,12 @@ class TadaApplicationRouter extends JApplicationWebRouter
 			$collections = $options['collections'];
 			foreach ($collections as $collection => $method)
 			{
-				$this->addMap($resource_path . '/' . $collection , $controller, $namespace_prefix . $collection, strtoupper($method));
+				TadaApplicationRouter::addMap($resource_path . '/' . $collection , $controller, $namespace_prefix . $collection, strtoupper($method));
 			}
 		}
 
 		// Add RESTful routes for the resource.
-		$this->addRESTfulResource($resource, $resource_path, $controller, $namespace_prefix);
+		TadaApplicationRouter::addRESTfulResource($resource, $resource_path, $controller, $namespace_prefix);
 
 		// Check if there are nested resources. We limit them to only one nesting level.
 		if (array_key_exists("resources", $options))
@@ -189,7 +185,7 @@ class TadaApplicationRouter extends JApplicationWebRouter
 			{
 				$c_resource_path = $resource_path . '/:' . $stringInflector->toSingular($resource) . '_id';
 
-				$this->addResource($c_resource, $c_options, $c_resource_path, $namespace_prefix);
+				TadaApplicationRouter::addResource($c_resource, $c_options, $c_resource_path, $namespace_prefix);
 			}
 		}
 	}
@@ -255,7 +251,7 @@ class TadaApplicationRouter extends JApplicationWebRouter
 		}
 
 		// Iterate through all of the known route maps looking for a match.
-		foreach ($this->maps as $rule)
+		foreach (TadaApplicationRouter::$maps as $rule)
 		{
 			if (preg_match($rule['regex'], $route, $matches) && strcmp(strtoupper($rule['method']), $method) == 0)
 			{
