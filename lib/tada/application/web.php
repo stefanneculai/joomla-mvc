@@ -112,7 +112,6 @@ class TadaApplicationWeb extends JApplicationWeb
 			$signature = serialize(array($type, $attributes));
 
 			$instance = new TadaDocumentHTML($attributes);
-			JFactory::$document = $instance;
 
 			$instance->setType($type);
 
