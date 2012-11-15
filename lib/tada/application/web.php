@@ -23,7 +23,7 @@ class TadaApplicationWeb extends JApplicationWeb
 		parent::__construct($input, $config, $client);
 
 		// Load the configuration object.
-		$this->loadConfiguration($this->fetchConfigurationData(JPATH_CONFIGURATION . '/configuration.php'));
+		$this->loadConfiguration($this->fetchConfigurationData(JPATH_CONFIG . '/configuration.php'));
 
 		$this->config->set('session', false);
 

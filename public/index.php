@@ -12,7 +12,7 @@ define('JPATH_APP', JPATH_BASE . '/app');
 define('JPATH_CODE', JPATH_BASE . '/lib/tada');
 define('JPATH_CONTROLLERS', JPATH_APP . '/controller');
 define('JPATH_MODELS', JPATH_APP . '/model');
-define('JPATH_CONFIGURATION', JPATH_BASE . '/config');
+define('JPATH_CONFIG', JPATH_BASE . '/config');
 define('JPATH_LIBRARIES', dirname(JPATH_BASE) . '/joomla-platform/libraries');
 
 // Set up the environment
