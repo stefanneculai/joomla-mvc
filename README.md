@@ -4,7 +4,7 @@ joomla-mvc
 Tada MVC Application using Joomla! Framework
 
 Folder structure:
-<p>-app</p>
+-app<br/>
 ----controllers
 ----models
 ----views
