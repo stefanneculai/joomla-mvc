@@ -23,7 +23,7 @@ A MVC Application using Joomla! Framework. The stucture of the application is si
     config/
       sql/                   
       configuration.php      -- application's config file
-      routes.ph              -- the routes that are used in the current application
+      routes.php              -- the routes that are used in the current application
     lib/
       tada/                  -- the code of the MVC application
     public 
