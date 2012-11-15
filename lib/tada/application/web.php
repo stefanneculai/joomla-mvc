@@ -33,7 +33,8 @@ class TadaApplicationWeb extends JApplicationWeb
 		// Load router
 		$this->loadRouter();
 
-		$this->loadDatabase();
+		// Do not load DB for the moment
+		//$this->loadDatabase();
 	}
 
 	/**
@@ -78,12 +79,12 @@ class TadaApplicationWeb extends JApplicationWeb
 		JFactory::$document = $document;
 
 		// Set page title.
-		$document->setTitle('Tada MVC');
+		$document->setTitle($this->get('app_title'), 'Tada MVC App');
 
 		// Register the default layout to the config
-		$this->set('theme', 'mt');
+		$this->set('theme', $this->get('app_theme', ''));
 		$this->set('themes.base', JPATH_APP . '/view/layouts');
-		$this->set('themeFile',  'index.php');
+		$this->set('themeFile',  $this->get('app_layout' ,'index.php'));
 		$this->set('themeParams', new JRegistry);
 
 		// Execute router
@@ -131,8 +132,6 @@ class TadaApplicationWeb extends JApplicationWeb
 	 */
 	public function loadDatabase(JDatabaseDriver $driver = null)
 	{
-		die($this->get('db_driver'));
-
 		// Check if no driver was passed.
 		if (is_null($driver))
 		{

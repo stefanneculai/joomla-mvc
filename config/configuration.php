@@ -84,6 +84,7 @@ final class JConfig
 	 * @since  11.3
 	 */
 	public $session_handler = 'database';
+
 	/**
 	 * The cache handler.
 	 *
@@ -91,6 +92,7 @@ final class JConfig
 	 * @since  11.3
 	 */
 	public $cache_handler = 'file';
+
 	/**
 	 * The cache time.
 	 *
@@ -98,11 +100,29 @@ final class JConfig
 	 * @since  11.3
 	 */
 	public $cachetime = '5';
+
 	/**
 	 * The application theme.
 	 *
 	 * @var    string
 	 * @since  12.1
 	 */
-	public $theme = 'mt';
+	public $app_theme = '';
+
+	/**
+	 * The application title.
+	 *
+	 * @var    string
+	 * @since  12.1
+	 */
+	public $app_title = 'Tada MVC Application';
+
+	/**
+	 * The application title.
+	 *
+	 * @var    string
+	 * @since  12.1
+	 */
+	public $app_layout = 'index.php';
+
 }
