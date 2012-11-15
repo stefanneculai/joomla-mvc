@@ -80,12 +80,43 @@ class TadaApplicationWeb extends JApplicationWeb
 		$document->setTitle('Tada MVC');
 
 		// Register the default layout to the config
-		$this->set('theme', 'mt');
+		$this->set('theme', '');
 		$this->set('themes.base', JPATH_APP . '/view/layouts');
 		$this->set('themeFile',  'index.php');
 		$this->set('themeParams', new JRegistry);
 
 		// Execute router
 		$this->router->execute($this->get('uri.route'));
+	}
+
+	public function loadDocument(JDocument $document = null)
+	{
+		if ($document !== null)
+		{
+			$this->document = $document;
+		}
+		else
+		{
+			if (JFactory::$document)
+			{
+				return JFactory::$document;
+			}
+
+			$lang = JFactory::getLanguage();
+
+			$type = $this->input->get('format', 'html', 'word');
+
+			$attributes = array('charset' => 'utf-8', 'lineend' => 'unix', 'tab' => '  ', 'language' => $lang->getTag(),
+							'direction' => $lang->isRTL() ? 'rtl' : 'ltr');
+
+			$signature = serialize(array($type, $attributes));
+
+			$instance = new TadaDocumentHTML($attributes);
+			JFactory::$document = $instance;
+
+			$instance->setType($type);
+
+			$this->document = $instance;
+		}
 	}
 }

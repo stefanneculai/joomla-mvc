@@ -12,6 +12,7 @@ $doc->addStyleSheet('css/style.css');
 	</head>
 	<body>
 		<h1>Tada MVC</h1>
+		<?php echo $this->element('header');?>
 		<jdoc:include type="content" />
 	</body>
 </html>

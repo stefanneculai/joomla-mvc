@@ -100,6 +100,8 @@ abstract class TadaController extends JControllerBase
 			$view->{$key} = $value;
 		}
 
+		$doc->view = $view;
+
 		$doc->setBuffer($view->render(), 'content');
 	}
 
