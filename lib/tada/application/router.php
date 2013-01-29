@@ -338,7 +338,7 @@ class TadaApplicationRouter extends JApplicationWebRouter
 		// We were unable to find a route match for the request, redirect to the default route.
 		if (!$controller)
 		{
-			JFactory::$application->redirect($this->default);
+			throw new RuntimeException("Could not find route.", 400);
 		}
 
 		return array('controller' => $controller, 'action' => $action, 'params' => $params, 'method' => $method );
