@@ -1,8 +1,19 @@
 <?php
+/**
+ * IXAPI MVC
+ *
+ * @copyright  Copyright (C) 2013 IXAPI
+ */
 defined('_JEXEC') or die;
 
+/**
+ * Application Web class.
+ *
+ * @since  1.0
+ */
 class TadaApplicationWeb extends JApplicationWeb
 {
+	// The router of the application.
 	protected $router;
 
 	/**
@@ -25,16 +36,17 @@ class TadaApplicationWeb extends JApplicationWeb
 		// Load the configuration object.
 		$this->loadConfiguration($this->fetchConfigurationData(JPATH_CONFIG . '/configuration.php'));
 
-		$this->config->set('session', false);
-
-		// Inject the application into JFactory
+		// Inject the application into JFactory.
 		JFactory::$application = $this;
 
-		// Load router
+		// Load router.
 		$this->loadRouter();
 
-		// Do not load DB for the moment
-		//$this->loadDatabase();
+		// Do not load DB for the moment.
+		$this->loadDatabase();
+
+		// Set session.
+		$this->loadSession();
 	}
 
 	/**
@@ -56,7 +68,6 @@ class TadaApplicationWeb extends JApplicationWeb
 		return $this;
 	}
 
-
 	/**
 	 * Method to run the Web application routines.
 	 *
@@ -68,22 +79,29 @@ class TadaApplicationWeb extends JApplicationWeb
 		$this->loadDocument();
 		$document = $this->getDocument();
 
-		// Inject the document object into the factory
+		// Inject the document object into the factory.
 		JFactory::$document = $document;
 
 		// Set page title.
 		$document->setTitle($this->get('app_title'), 'Tada MVC App');
 
-		// Register the default layout to the config
+		// Register the default layout to the config.
 		$this->set('theme', $this->get('app_theme', ''));
 		$this->set('themes.base', JPATH_APP . '/view/layouts');
-		$this->set('themeFile',  $this->get('app_layout' ,'index.php'));
+		$this->set('themeFile',  $this->get('app_layout', 'index.php'));
 		$this->set('themeParams', new JRegistry);
 
-		// Execute router
+		// Execute router.
 		$this->router->execute($this->get('uri.route'));
 	}
 
+	/**
+	 * Load document for the MVC.
+	 *
+	 * @param   JDocument  $document  A JDocument object.s
+	 *
+	 * @return  void
+	 */
 	public function loadDocument(JDocument $document = null)
 	{
 		if ($document !== null)
